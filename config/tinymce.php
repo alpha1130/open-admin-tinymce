@@ -2,6 +2,7 @@
 
 return [
     'tinymce' => [
+        'height' => 500,
         'language_url' => '',
         'language' => '',
         'license_key' => 'gpl',

@@ -42,6 +42,7 @@ class TinymceEditor {
             fileInput.click();
         }
         
+        tinymce.remove();
         tinymce.init(this.config.tinymce);
     }
 

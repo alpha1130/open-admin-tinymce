@@ -6,7 +6,7 @@
 
         @include('admin::form.error')
         
-        <textarea id="{{$id}}" class="tinymce-editor-{{$id}}" style="height: 400px;">{!! old($column, $value) !!}</textarea>
+        <input id="{{$id}}" name="{{$name}}" class="tinymce-editor-{{$id}}" type="hidden" value="{{old($column, $value)}}">
 
         @include('admin::form.help-block')
 
