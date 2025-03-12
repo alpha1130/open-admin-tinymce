@@ -1,0 +1,31 @@
+{
+    "name": "alpha1130/open-admin-tinymce",
+    "description": "tinymce extension for open-admin",
+    "type": "library",
+    "keywords": ["open-admin", "extension", "tinymce"],
+    "homepage": "https://github.com/alpha1130/open-admin-tinymce",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "alpha1130",
+            "email": "alpha1130@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "open-admin-org/open-admin": "~1.0",
+        "qcloud_sts/qcloud-sts-sdk": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alpha1130\\OpenAdminTinymce\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alpha1130\\OpenAdminTinymce\\OpenAdminTinymceServiceProvider"
+            ]
+        }
+    }
+}
