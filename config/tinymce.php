@@ -11,12 +11,13 @@ return [
         'toolbar' => "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table | lineheight outdent indent| forecolor backcolor removeformat | code fullscreen preview | pagebreak anchor",
     ],
     'qcs' => [
-        'appid' => '',
         'secret_id' => '',
         'secret_key' => '',
         'bucket' => '',
         'region' => '',
         'url' => '',
         'key_prefix' => '',
+        'duration_seconds' => 600,
+        'allow_prefix' => [],
     ]
 ];
