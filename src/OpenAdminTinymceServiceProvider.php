@@ -24,7 +24,6 @@ class OpenAdminTinymceServiceProvider extends ServiceProvider
             $this->publishes(
                 [
                     $assets => public_path('vendor/alpha1130/open-admin-tinymce'),
-                    __DIR__ . '/../config/tinymce.php' => \config_path('tinymce.php'),
                 ],
                 'open-admin-tinymce'
             );

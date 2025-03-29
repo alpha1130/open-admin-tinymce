@@ -1,8 +1,17 @@
 class TinymceEditor {
-    constructor(selector, config) {
-        this.config = config;
-        this.config.tinymce.selector = `.tinymce-editor-${selector}`;
-        this.config.tinymce.file_picker_callback = (callback, value, meta) => {
+    constructor(selector, tinymceConfig, cosConfig) {
+        tinymceConfig.selector = `.tinymce-editor-${selector}`;
+
+        if(!!cosConfig) {
+            this.initCos(tinymceConfig, cosConfig);
+        }
+
+        tinymce.remove();
+        tinymce.init(tinymceConfig);
+    }
+
+    initCos(tinymceConfig, cosConfig) {
+        tinymceConfig.file_picker_callback = (callback, value, meta) => {
             const fileInput = document.createElement('input');
             fileInput.setAttribute('type', 'file');
             fileInput.setAttribute('accept', 'image/png, image/jpeg');
@@ -14,16 +23,18 @@ class TinymceEditor {
                     return;
                 }
 
+                const suffix = files[0].name.match(/[A-Za-z0-9]+$/)[0];
+
                 (new COS({
-                    SecretId: this.config.qcs.credentials.tmpSecretId,
-                    SecretKey: this.config.qcs.credentials.tmpSecretKey,
-                    SecurityToken: this.config.qcs.credentials.sessionToken,
-                    StartTime: this.config.qcs.startTime,
-                    ExpiredTime: this.config.qcs.expiredTime,
+                    SecretId: cosConfig.credentials.tmpSecretId,
+                    SecretKey: cosConfig.credentials.tmpSecretKey,
+                    SecurityToken: cosConfig.credentials.sessionToken,
+                    StartTime: cosConfig.startTime,
+                    ExpiredTime: cosConfig.expiredTime,
                 })).uploadFile({
-                    Bucket: this.config.qcs.bucket,
-                    Region: this.config.qcs.region,
-                    Key: this.config.qcs.keyPrefix + files[0].name,
+                    Bucket: cosConfig.bucket,
+                    Region: cosConfig.region,
+                    Key: cosConfig.keyPrefix + uuidv4() + suffix,
                     Body: files[0],
                     onProgress: (progressData) => {
                         NProgress.set(progressData.percent)
@@ -33,7 +44,11 @@ class TinymceEditor {
                     if (err) {
                         console.log(err);
                     } else {
-                        callback('//' + data.Location)
+                        const url = 'https://' + (
+                            cosConfig.publishDomain 
+                            ? data.Location.replace(/^[^\/]+/, cosConfig.publishDomain) 
+                            : data.Location);
+                        callback(url)
                     }
                     fileInput.value = '';
                 })
@@ -41,9 +56,6 @@ class TinymceEditor {
 
             fileInput.click();
         }
-        
-        tinymce.remove();
-        tinymce.init(this.config.tinymce);
     }
 
 }
